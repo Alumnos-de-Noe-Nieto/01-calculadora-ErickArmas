@@ -1,0 +1,13 @@
+// .vscode/settings.json
+{
+    "github.copilot.enable": {
+        "*": false,
+        "python": false
+    },
+    "explorer.excludeGitIgnore": true,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

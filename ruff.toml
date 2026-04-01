@@ -1,0 +1,159 @@
+[lint]
+# ============================================================================
+# CONFIGURACIÓN PARA ESTUDIANTES PRINCIPIANTES
+# ============================================================================
+# Esta configuración captura errores críticos y enseña mejores prácticas
+# sin ser demasiado estricta y frustrar el aprendizaje.
+#
+# Niveles de complejidad:
+# - Crítico: Deben pasar siempre (E, F, básicos de B)
+# - Importante: Buenas prácticas esenciales (A, C4, BLE, I)
+# - Educativo: Aprenden mejores prácticas (SIM, UP, algunos N)
+# - Opcional: No afectan la nota pero muestran advertencias
+# ============================================================================
+
+select = [
+    # ====================
+    # CRÍTICO: Errores de sintaxis y semántica (Siempre deben pasar)
+    # ====================
+    "E4",      # Errores de importación (pycodestyle)
+    "E7",      # Errores de comparación (pycodestyle)
+    "E9",      # Errores de sintaxis (pycodestyle)
+    "F",       # Errores de Pyflakes (variables no definidas, imports no usados)
+    
+    # ====================
+    # IMPORTANTE: Buenas prácticas esenciales
+    # ====================
+    "A",       # No shadowing de builtins (muy útil para evitar bugs)
+    "C4",      # Mejores prácticas de comprehensions (enseña Python moderno)
+    "BLE",     # Evitar excepciones bare (buena práctica de manejo de errores)
+    "I",       # Orden de imports (isort) - estilo consistente
+    "W",       # Advertencias de pycodestyle (útiles pero no críticas)
+    
+    # ====================
+    # EDUCATIVO: Reglas selectas de flake8-bugbear
+    # ====================
+    # Solo las reglas más útiles y menos técnicas de bugbear
+    "B006",    # No usar mutables como argumentos por defecto (muy importante)
+    "B007",    # Variable de loop no usada (muy común en estudiantes)
+    "B008",    # No hacer llamadas en argumentos por defecto
+    "B905",    # zip() sin explicit strict=True (enseña Python 3.10+)
+    
+    # ====================
+    # EDUCATIVO: Simplicidad y Python moderno
+    # ====================
+    "SIM",     # Simplificar código (mejora legibilidad)
+    "UP",      # pyupgrade (enseña sintaxis moderna de Python)
+    
+    # ====================
+    # EDUCATIVO: Naming conventions (reglas seleccionadas)
+    # ====================
+    # Solo las reglas de nombres más importantes
+    "N802",    # Nombre de función en camelCase (debe ser snake_case)
+    "N803",    # Nombre de argumento en camelCase
+    "N806",    # Variable en camelCase
+    
+    # ====================
+    # SEGURIDAD BÁSICA: Solo lo esencial
+    # ====================
+    # Reglas de seguridad que realmente importan para estudiantes
+    "S101",    # Uso de assert (puede ser eliminado con -O)
+    "S110",    # try-except-pass sin log (mapeo a BLE001)
+    "S112",    # try-except-continue sin log
+]
+
+# ============================================================================
+# IGNORAR: Reglas demasiado estrictas para estudiantes principiantes
+# ============================================================================
+ignore = [
+    "E501",    # Líneas muy largas (los estudiantes pueden tener monitores pequeños)
+    "E741",    # Variables de una letra ambiguas (O vs 0, l vs 1) - muy pedante
+    "ERA001",  # Comentarios eliminados - útil para debugging
+    "SIM108",  # Usar ternario en lugar de if-else (reduce legibilidad)
+    "UP035",   # typing imports obsoletos (puede ser confuso al principio)
+]
+
+# ============================================================================
+# NO AUTOCORREGIR: Algunos cambios requieren entendimiento manual
+# ============================================================================
+unfixable = [
+    "B",       # Reglas de bugbear requieren revisión manual
+]
+
+# ============================================================================
+# IGNORAR POR ARCHIVO: Casos especiales
+# ============================================================================
+[lint.per-file-ignores]
+"__init__.py" = [
+    "E402",    # Imports pueden estar después de docstrings en __init__.py
+    "F401",    # Imports no usados son normales en __init__.py
+]
+"**/{tests,docs,tools}/*" = [
+    "E402",    # Imports pueden estar después de código de configuración
+    "S101",    # assert es normal en tests
+]
+"calculadora/cli.py" = [
+    "BLE001",  # Excepciones bare aceptables en CLI para capturar todo
+]
+"tests/**/*.py" = [
+    "S101",    # assert es esencial en tests
+    "N802",    # Las funciones de test pueden usar camelCase (pytest)
+]
+
+[format]
+# Configuración de formato (usar ruff format como Black)
+quote-style = "single"
+line-ending = "auto"
+indent-style = "space"
+
+# ============================================================================
+# COMENTARIOS PARA ESTUDIANTES
+# ============================================================================
+#
+# ¿POR QUÉ ESTAS REGLAS?
+#
+# 1. CRÍTICAS (E, F): Si no pasan, el código no funciona. No son negociables.
+#
+# 2. IMPORTANTES (A, C4, BLE, I, W): Enseñan hábitos que evitan bugs:
+#    - A: No usar 'list', 'dict', 'str' como nombres de variables
+#    - C4: Usar comprehensions en lugar de loops innecesarios
+#    - BLE: Siempre capturar el tipo de excepción específica
+#    - I: Ordenar imports (std lib, third party, local) mantiene orden
+#    - W: Advertencias como comparaciones innecesarias
+#
+# 3. EDUCATIVAS (B, SIM, UP, N): Mejoran la calidad del código:
+#    - B selectas: Solo las reglas más útiles de bugbear
+#    - SIM: Código más legible y Pythonico
+#    - UP: Sintaxis moderna de Python (f-strings, walrus operator)
+#    - N selectas: Naming conventions básicas (snake_case)
+#
+# 4. SEGURIDAD (S selectas): Buenas prácticas de seguridad esenciales:
+#    - S101: No usar assert para control de flujo (puede ser deshabilitado)
+#    - S110/S112: Siempre loguear excepciones, no ignorarlas
+#
+# ¿POR QUÉ IGNORAR ESTAS REGLAS?
+#
+# - E501: Líneas largas - estudiantes pueden tener monitores pequeños
+# - E741: Variables de una letra - muy pedante para principiantes
+# - ERA001: Comentarios eliminados - útiles para debugging
+# - SIM108: Ternarios - pueden reducir legibilidad en código complejo
+# - UP035: typing imports - pueden ser confusos al aprender typing
+#
+# ¿CÓMO USAR ESTO?
+#
+# 1. Antes de entregar: `ruff check calculadora/`
+# 2. Si hay errores: `ruff check calculadora/ --fix` (autocorregir)
+# 3. Si quedan errores: leer el mensaje y corregir manualmente
+# 4. Para ver descripciones: `ruff rule <codigo>` (ej: `ruff rule B006`)
+#
+# EJEMPLOS COMUNES:
+#
+# B006 - Mal: `def func(lista=[])` -> Bien: `def func(lista=None)`
+# BLE001 - Mal: `except:` -> Bien: `except ValueError:`
+# A001 - Mal: `list = [1,2,3]` -> Bien: `numeros = [1,2,3]`
+# C401 - Mal: `set([x for x in lista])` -> Bien: `{x for x in lista}`
+# N802 - Mal: `def miFuncion():` -> Bien: `def mi_funcion():`
+# UP031 - Mal: `"%s %s" % (a, b)` -> Bien: `f"{a} {b}"`
+#
+# ¡ESTÁS APRENDIENDO A ESCRIBIR CÓDIGO PROFESIONAL EN PYTHON!
+# ============================================================================
