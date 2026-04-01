@@ -22,7 +22,8 @@ def romano_a_entero(cadena: str) -> int:
     Convierte una cadena de números romanos válida a su valor entero correspondiente.
     """
     
-    # --- PASO 1: Validaciones (Niveles 1-5) ---
+    # --- PASO 1: V
+    # alidaciones (Niveles 1-5) ---
     # 💡 PISTA PRIMERO: Llama a todas las validaciones ANTES de convertir
     
     if not validar_simbolos(cadena):
