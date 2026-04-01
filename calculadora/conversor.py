@@ -21,11 +21,11 @@ def romano_a_entero(cadena: str) -> int:
     """
     Convierte una cadena de números romanos válida a su valor entero correspondiente.
     """
-    
+
     # --- PASO 1: V
     # alidaciones (Niveles 1-5) ---
     # 💡 PISTA PRIMERO: Llama a todas las validaciones ANTES de convertir
-    
+
     if not validar_simbolos(cadena):
         raise ExpresionInvalida(f'La cadena "{cadena}" contiene símbolos inválidos')
 
@@ -44,21 +44,21 @@ def romano_a_entero(cadena: str) -> int:
 
     # --- PASO 2: Conversión (Nivel 6) ---
     # 💡 PISTA: Recorremos la cadena para calcular el valor total
-    
+
     total = 0
     valor_anterior = 0
-    
+
     # Recorremos de derecha a izquierda para aplicar la lógica de suma/resta fácilmente
     for caracter in reversed(cadena):
         valor_actual = VALORES_ROMANOS[caracter]
-        
+
         # Si el valor actual es menor que el anterior (ej: IV -> el 1 es menor que el 5), se resta
         if valor_actual < valor_anterior:
             total -= valor_actual
         else:
             # Si es mayor o igual, se suma (ej: VI -> el 5 es mayor que el 1)
             total += valor_actual
-            
+
         valor_anterior = valor_actual
-        
+
     return total

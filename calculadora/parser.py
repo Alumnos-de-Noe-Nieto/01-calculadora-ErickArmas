@@ -4,6 +4,7 @@ Este módulo contiene las funciones para parsear expresiones aritméticas con n�
 """
 
 from dataclasses import dataclass
+
 from calculadora.error import ExpresionInvalida
 
 
@@ -28,12 +29,12 @@ def evaluar_expresion(expresion: str) -> list[Token]:
     try:
         # 💡 PISTA: Primero llama a tokenizar_expresion(expresion)
         tokens = tokenizar_expresion(expresion)
-        
+
         # 💡 PISTA: Luego llama a validar_estructura_tokens(tokens)
         if not validar_estructura_tokens(tokens):
             # 💡 PISTA: Mensaje de error específico
             raise ExpresionInvalida(f'La expresión "{expresion}" tiene una estructura inválida')
-            
+
         return tokens
 
     except ExpresionInvalida:
@@ -47,7 +48,7 @@ def tokenizar_expresion(expresion: str) -> list[Token]:
     """
     tokens = []
     i = 0
-    
+
     # 💡 PISTA: Recorre la expresión caracter por caracter con un índice `i` usando while
     while i < len(expresion):
         char = expresion[i]
@@ -75,7 +76,7 @@ def tokenizar_expresion(expresion: str) -> list[Token]:
         # 💡 PISTA: Si el caracter no es ninguno de los anteriores
         else:
             raise ExpresionInvalida(f"Carácter inválido '{char}' en posición {i}")
-            
+
     return tokens
 
 
