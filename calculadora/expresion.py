@@ -2,7 +2,6 @@
 Nivel 8: Orquestación del Pipeline Completo
 Este módulo contiene la función principal para evaluar expresiones aritméticas de números romanos.
 """
-
 from calculadora.conversor import romano_a_entero
 from calculadora.error import ExpresionInvalida
 from calculadora.parser import evaluar_expresion as parsear_expresion
@@ -12,6 +11,9 @@ def evaluar(expresion: str) -> int:
     """
     Pipeline completo - Orquestación de todos los niveles.
     """
+    # --- PASO 0: Validación de entrada vacía (Requerido para test 8.13) ---
+    if not expresion or not expresion.strip():
+        raise ExpresionInvalida("La expresión no puede estar vacía")
 
     # --- PASO 1: Parsing (Nivel 7) ---
     # 💡 PISTA PRIMERO: Llama a parsear_expresion(expresion) para obtener los tokens
@@ -24,6 +26,10 @@ def evaluar(expresion: str) -> int:
     # 💡 PISTA: Filtra tokens de tipo 'ESPACIO'
     tokens_utiles = [t for t in tokens if t.tipo != 'ESPACIO']
 
+    # Si después de limpiar espacios no hay tokens, lanzamos error
+    if not tokens_utiles:
+        raise ExpresionInvalida("La expresión no contiene símbolos válidos")
+
     # --- PASO 3: Evaluación (Nivel 8) ---
     # 💡 PISTA: Recorre los tokens restantes y aplica las operaciones correspondientes
 
@@ -35,6 +41,11 @@ def evaluar(expresion: str) -> int:
     i = 1
     while i < len(tokens_utiles):
         operador = tokens_utiles[i]
+
+        # Verificamos que exista un siguiente número para evitar IndexError
+        if i + 1 >= len(tokens_utiles):
+             raise ExpresionInvalida("Expresión incompleta: falta un número después del operador")
+
         proximo_numero = tokens_utiles[i + 1]
 
         # Convertimos el siguiente componente romano a entero
@@ -45,6 +56,8 @@ def evaluar(expresion: str) -> int:
             resultado += valor_num
         elif operador.tipo == 'RESTA':
             resultado -= valor_num
+        else:
+            raise ExpresionInvalida(f"Operador desconocido: {operador.tipo}")
 
         i += 2
 
