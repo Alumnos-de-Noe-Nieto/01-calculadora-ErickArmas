@@ -15,3 +15,4 @@ def validar_alfabeto(cadena: str) -> bool:
     # 4. Revisamos que cada letra de la cadena esté en el alfabeto
     # Usamos all() para cumplir con la sugerencia SIM110 de Ruff
     return all(letra in alfabeto for letra in cadena_limpia)
+    validar_simbolos = validar_alfabeto
