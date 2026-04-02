@@ -1,4 +1,4 @@
-def validar_alfabeto(cadena: str) -> bool:
+def validar_simbolos(cadena: str) -> bool:
     """
     Valida que la cadena contenga únicamente símbolos del alfabeto romano.
     """
@@ -13,6 +13,4 @@ def validar_alfabeto(cadena: str) -> bool:
     alfabeto = "IVXLCDM"
 
     # 4. Revisamos que cada letra de la cadena esté en el alfabeto
-    # Usamos all() para cumplir con la sugerencia SIM110 de Ruff
     return all(letra in alfabeto for letra in cadena_limpia)
-    validar_simbolos = validar_alfabeto
