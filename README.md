@@ -265,6 +265,7 @@ Si tienes dudas durante el desarrollo:
 6. **Consulta la guía de ruff** en `docs/GUIA_RUFF.md`
 7. **Pregunta en el foro** del curso como último recurso
 
+.
 ---
 
 ## 📋 Checklist de Entrega
